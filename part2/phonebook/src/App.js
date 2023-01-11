@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { Filter } from './Components/FilterComponent'
+import { PersonForm } from './Components/PersonFormComponent'
+import { NumberList } from './Components/NumberListComponent'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -32,37 +35,23 @@ const App = () => {
     addNumber(name);
   }
 
+  // Util
   const addNumber = (name) => {
     setNewName(name);
-    setPersons(persons.concat({name, number:newNumber, id:persons.length}));
+    setPersons(persons.concat({name, number:newNumber, id:persons.length+1}));
   }
 
   const getPerson = (name) => {
     return persons.find(e => e.name === name)
   }
 
-  const isIncludedByFilter = (person) => {
-    return person.name.toLowerCase().includes(filter.toLowerCase())
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>Filter by: 
-        <input onChange={handleFilterChange}/>
-      </div>
-      <form onSubmit={handleFormSubmit}>
-        <div>
-          <h2>Add New</h2>
-          <div>name: <input /></div>
-          <div>number: <input value={newNumber} onChange={handleNumberEntry}/></div>
-          <div><button type="submit">add</button></div>
-        </div>
-      </form>
+      <Filter handleFilterChange={handleFilterChange} />
+      <PersonForm handleFormSubmit={handleFormSubmit} newNumber={newNumber} handleNumberEntry={handleNumberEntry}/>
       <h2>Numbers</h2>
-      {persons.filter(person => isIncludedByFilter(person)).map(person => {
-        return <p key={person.id}>{person.name} - {person.number}</p>
-      })}
+      <NumberList persons={persons} filter={filter}/>
     </div>
   )
 }
