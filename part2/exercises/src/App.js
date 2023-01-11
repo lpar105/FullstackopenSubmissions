@@ -22,10 +22,16 @@ const Part = ({part}) => {
   )
 }
 
+const getTotalExercises = (parts) => {
+  return parts.reduce((sum, x) => x.exercises + sum, 0)
+}
+
 const Content = ({parts}) => {
+  const total = getTotalExercises(parts);
   return(
     <>
       {parts.map(x => <Part part={x} key={x.id}/>)}
+      <b> Total of {total} exercises </b>
     </>
   )
 }
