@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const CountryShowcase = ({data}) => {
+const CountryShowcase = ({data}) => {
   const country = data[0]
   return (
     <div>
@@ -17,14 +17,35 @@ export const CountryShowcase = ({data}) => {
   )
 }
 
-export const FilteredData = ({data}) => {
+const Button = (props) => (
+    <button onClick={props.handleClick}>
+      Show
+    </button>
+)
+
+const showCountry = (props, setFilter) => {
+    setFilter(props)
+}
+
+const CountryList = ({data, setFilter}) => {
+  return (
+    data.map(e => 
+        <p key={e.name.official}>
+            {e.name.common}  
+            <Button handleClick={() => showCountry(e.name.common, setFilter)} />
+        </p>
+    )
+  )
+}
+
+export const FilteredData = ({data, setFilter}) => {
   return (
     <div>
         {data.length > 10 ? 
             <p>Too many options! Use a filter</p> 
             : data.length == 1 ? 
                 <CountryShowcase data = {data}/> : 
-                data.map(e=> <p key={e.name.official}>{e.name.common}</p>)}
+                <CountryList data = {data} setFilter={setFilter}/>}
     </div>
   )
 }

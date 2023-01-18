@@ -23,7 +23,7 @@ const App = () => {
     <>
       <div>Find Countries: <input value={filter} onChange={handleChange}/></div>
       {
-        data.length === 0 ? <p>Please wait, fetching data</p> : <FilteredData data={getFilteredData()} filter={filter}/>
+        data.length === 0 ? <p>Please wait, fetching data</p> : <FilteredData data={getFilteredData()} setFilter={setFilter}/>
       }
     </>
   )
