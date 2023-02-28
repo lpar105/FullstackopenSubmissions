@@ -31,10 +31,20 @@ const App = () => {
     const name = event.target[0].value;
 
     if (getPerson(name)) {
-      return alert(`${name} is already added to the phonebook`);
+      if (
+        window.confirm(
+          `${name} already exists. Would you like to update their phonenumber?`
+        )
+      ) {
+        personsService.update(getPerson(name), newNumber).then(() => {
+          personsService.getAll().then((response) => {
+            setPersons(response);
+          });
+        });
+      }
+    } else {
+      addNumber(name);
     }
-
-    addNumber(name);
   };
 
   // Util
