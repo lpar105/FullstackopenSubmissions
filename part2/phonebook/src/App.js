@@ -59,7 +59,7 @@ const App = () => {
         handleNumberEntry={handleNumberEntry}
       />
       <h2>Numbers</h2>
-      <NumberList persons={persons} filter={filter} />
+      <NumberList persons={persons} setPersons={setPersons} filter={filter} />
     </div>
   );
 };
