@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { Filter } from "./Components/FilterComponent";
 import { PersonForm } from "./Components/PersonFormComponent";
 import { NumberList } from "./Components/NumberListComponent";
+import { Notification } from "./Components/Notification";
 import personsService from "./Services/persons";
+import "./index.css";
 
 const App = () => {
   // States
   const [persons, setPersons] = useState([]);
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notifcationMessage, setNotificationMessage] = useState(null);
 
   // Effects
   useEffect(() => {
@@ -40,6 +43,10 @@ const App = () => {
           personsService.getAll().then((response) => {
             setPersons(response);
           });
+          setNotificationMessage(`${name}'s phonenumber updated!`);
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 3000);
         });
       }
     } else {
@@ -52,6 +59,10 @@ const App = () => {
     const newPerson = { name, number: newNumber, id: persons.length + 1 };
     personsService.create(newPerson).then(() => {
       setPersons(persons.concat(newPerson));
+      setNotificationMessage(`${name} added to phonebook!`);
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 3000);
     });
   };
 
@@ -62,6 +73,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notifcationMessage} />
       <Filter handleFilterChange={handleFilterChange} />
       <PersonForm
         handleFormSubmit={handleFormSubmit}
@@ -69,7 +81,12 @@ const App = () => {
         handleNumberEntry={handleNumberEntry}
       />
       <h2>Numbers</h2>
-      <NumberList persons={persons} setPersons={setPersons} filter={filter} />
+      <NumberList
+        persons={persons}
+        setPersons={setPersons}
+        setNotificationMessage={setNotificationMessage}
+        filter={filter}
+      />
     </div>
   );
 };

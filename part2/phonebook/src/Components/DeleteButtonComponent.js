@@ -13,7 +13,12 @@ const handleClick = (props) => {
         });
       })
       .catch((error) => {
-        alert("Already Deleted!", error);
+        props.setNotificationMessage(
+          `Error: Already been removed from server!`
+        );
+        setTimeout(() => {
+          props.setNotificationMessage(null);
+        }, 3000);
         personsService.getAll().then((response) => {
           props.setPersons(response);
         });

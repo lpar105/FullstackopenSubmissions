@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { Button } from "./DeleteButtonComponent";
 export const NumberList = ({
   persons,
-  setPersons = { setPersons },
+  setPersons,
+  setNotificationMessage,
   filter,
 }) => {
   const isIncludedByFilter = (person) => {
@@ -17,7 +18,11 @@ export const NumberList = ({
           return (
             <p key={person.id}>
               {person.name} - {person.number}{" "}
-              <Button personId={person.id} setPersons={setPersons} />
+              <Button
+                personId={person.id}
+                setPersons={setPersons}
+                setNotificationMessage={setNotificationMessage}
+              />
             </p>
           );
         })}
